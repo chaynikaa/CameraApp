@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera</title>
+</head>
+<body>
+      <video autoplay controls></video>
+      <audio autoplay controls></audio>
+
+      <script>
+          let video = document.querySelector("video");
+          let audio = document.querySelector("audio");
+          let constraints = {video : true , audio:true};
+          navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream){
+            video.srcObject = mediaStream;
+            audio.srcObject = mediaStream;
+
+          });
+      </script>
+</body>
+</html>
