@@ -34,7 +34,8 @@
           })
           navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream){
             video.srcObject = mediaStream;
-           mediaRecorder = new MediaRecorder(mediaStream);
+            let options = {mimeType : "video/webm; codecs=vp9"};
+            mediaRecorder = new MediaRecorder(mediaStream,options);
            mediaRecorder.addEventListener("dataavailable",function(e){
              chunks.push(e.data);
            }); 
