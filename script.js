@@ -1,12 +1,24 @@
 let video = document.querySelector("video");
 let vidBtn = document.querySelector("button#record");
 let capBtn = document.querySelector("button#capture");
-
+let body = document.querySelector("body");
+let filters = document.querySelectorAll(".filter");
 let audio = document.querySelector("audio");
 let constraints = {video : true , audio:true };
 let mediaRecorder;
 let isRecording = false;
 let chunks =[];
+let filter="";
+
+for(let i = 0 ; i < filters.length ; i++){
+  filters[i].addEventListener("click",function(e){
+    filter = e.currentTarget.style.backgroundColor;
+    //remove filter if exists
+    //apply new filter using the above value
+    removeFilter();
+    applyfilter(filter);
+  })
+}
 
 vidBtn.addEventListener("click",function(){
   let innerDiv= vidBtn.querySelector("div");
@@ -67,4 +79,16 @@ function capture(){
     a.click();
     a.remove(); 
       
+}
+function applyfilter(filterColor){
+  let filterDiv = document.createElement("div");
+  filterDiv.classList.add("filter-div");
+  filterDiv.style.backgroundColor = filterColor;
+  body.appendChild(filterDiv);
+}
+
+function removeFilter(){
+  let filterDiv = document.querySelector(".filter-div");
+  if(filterDiv)
+  filterDiv.remove();
 }
