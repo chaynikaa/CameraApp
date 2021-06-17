@@ -95,6 +95,7 @@ background-color:black;
      right: 6.5rem;
      top: 5rem;
      z-index: 3;
+     cursor: pointer;
  }
  .zoom-in-out-container div{
      width: 100%;

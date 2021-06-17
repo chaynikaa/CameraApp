@@ -4,6 +4,9 @@ let capBtn = document.querySelector("button#capture");
 let body = document.querySelector("body");
 let filters = document.querySelectorAll(".filter");
 let audio = document.querySelector("audio");
+let zoomIn = document.querySelector(".zoom-in");
+let zoomOut = document.querySelector(".zoom-out");
+
 let constraints = {video : true , audio:true };
 let mediaRecorder;
 let isRecording = false;
@@ -20,6 +23,37 @@ for(let i = 0 ; i < filters.length ; i++){
   })
 }
 
+let minZoom=1;
+let maxZoom=3;
+let currZoom=1;
+
+
+zoomIn.addEventListener("click",function(){
+
+let vidCurrScale = video.style.transform.split("(")[1].split(")")[0];
+if(vidCurrScale > maxZoom){
+  return;
+} else {
+  currZoom = Number(vidCurrScale)+0.1;
+  video.style.transform = `scale(${currZoom})`;
+}
+console.log(currZoom);
+
+});
+
+zoomOut.addEventListener("click",function(){
+  let vidCurrScale = video.style.transform.split("(")[1].split(")")[0];
+  if(currZoom > minZoom){
+    currZoom -= 0.1;
+  
+    video.style.transform = `scale(${currZoom})`;
+  }
+});
+
+
+
+
+
 vidBtn.addEventListener("click",function(){
   let innerDiv= vidBtn.querySelector("div");
 
@@ -30,8 +64,14 @@ vidBtn.addEventListener("click",function(){
 
     } else {
         mediaRecorder.start();
+        filter="";
+        removeFilter();
+        video.style.transform = `scale(1)`;
+        currZoom = 1;
         isRecording = true;
         innerDiv.classList.add("record-animation");
+
+
         
     }
 
@@ -72,7 +112,15 @@ function capture(){
     c.width = video.videoWidth;
     c.height = video.videoHeight;
     let ctx = c.getContext("2d");
+
+    ctx.translate(c.width/2 , c.height/2)
+    ctx.scale(currZoom,currZoom)
+    ctx.translate(-c.width/2 , -c.height/2)
     ctx.drawImage(video,0,0);
+    if(filter!=""){
+      ctx.fillStyle=filter;
+      ctx.fillRect(0,0,c.width,c.height)
+    }
     let a = document.createElement("a");
     a.download = "image.png";
     a.href = c.toDataURL();
