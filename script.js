@@ -9,19 +9,30 @@ let isRecording = false;
 let chunks =[];
 
 vidBtn.addEventListener("click",function(){
+  let innerDiv= vidBtn.querySelector("div");
+
     if(isRecording){
        mediaRecorder.stop();
        isRecording = false;
-       vidBtn.innerText = "Record";
+       innerDiv.classList.remove ("record-animation");
+
     } else {
         mediaRecorder.start();
         isRecording = true;
-        vidBtn.innerText = "Recording..."
+        innerDiv.classList.add("record-animation");
+        
     }
 
 });
 
 capBtn.addEventListener("click",function(){
+   let innerDiv = capBtn.querySelector("div");
+   innerDiv.classList.add("capture-animation");
+   setTimeout(function(){
+
+    innerDiv.classList.remove ("capture-animation");
+
+   },500)
     capture();
 });
 navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream){
